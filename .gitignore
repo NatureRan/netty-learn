@@ -1,0 +1,16 @@
+.DS_Store
+target/
+bin/
+logs/
+.settings/
+.metadata/
+*.project
+*.classpath
+*.swp
+*.class
+*.log
+*.out
+.idea/
+*.iml
+start.sh
+.dubbo
