@@ -37,10 +37,14 @@ public class NioSelectorServer {
             while (iterator.hasNext()) {
                 SelectionKey selectionKey = iterator.next();
                 if (selectionKey.isAcceptable()) {
-                    ServerSocketChannel channel = (ServerSocketChannel) selectionKey.channel();
-                    channel.configureBlocking(false);
+                    ServerSocketChannel server = (ServerSocketChannel) selectionKey.channel();
+                    SocketChannel socketChannel = server.accept();
+                    if (socketChannel == null) {
+                        continue;
+                    }
+                    socketChannel.configureBlocking(false);
                     // 这里注册读时间，也可以注册写时间
-                    channel.register(selector, SelectionKey.OP_READ);
+                    socketChannel.register(selector, SelectionKey.OP_READ);
                     System.out.println("建立连接成功");
                 } else if (selectionKey.isReadable()) {
                     SocketChannel channel = (SocketChannel) selectionKey.channel();
