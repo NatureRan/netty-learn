@@ -1,4 +1,4 @@
-package client;
+package online.tianran.netty.client;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
@@ -28,7 +28,7 @@ public class EchoClientHandler extends SimpleChannelInboundHandler {
 
         // 将服务端返回的byte数组转成字符串，在控制台打印输出
         String body = new String(req, "UTF-8");
-        System.out.println("receive data from server:" + body);
+        System.out.println("receive data from online.tianran.netty.server:" + body);
     }
 
     @Override

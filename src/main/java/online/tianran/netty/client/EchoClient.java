@@ -1,4 +1,4 @@
-package client;
+package online.tianran.netty.client;
 
 import io.netty.bootstrap.Bootstrap;
 import io.netty.buffer.ByteBuf;

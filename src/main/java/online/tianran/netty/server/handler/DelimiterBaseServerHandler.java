@@ -1,4 +1,4 @@
-package server.handler;
+package online.tianran.netty.server.handler;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
@@ -26,7 +26,7 @@ public class DelimiterBaseServerHandler extends SimpleChannelInboundHandler {
     protected void channelRead0(ChannelHandlerContext channelHandlerContext, Object msg) throws Exception {
         // 接受客户端发送的字符串，并打印到控制台
         String content = (String) msg;
-        System.out.println("received from client:" + msg + "counter:" + counter.getAndAdd(1));
+        System.out.println("received from online.tianran.netty.client:" + msg + "counter:" + counter.getAndAdd(1));
 
         // 加入分隔符，将数据重新发送到客户端
         content += DELIMITER_TAG;

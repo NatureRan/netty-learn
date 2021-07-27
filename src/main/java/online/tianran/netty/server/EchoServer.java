@@ -1,4 +1,4 @@
-package server;
+package online.tianran.netty.server;
 
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
@@ -8,7 +8,7 @@ import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
-import server.handler.EchoServerHandler;
+import online.tianran.netty.server.handler.EchoServerHandler;
 
 /**
  * Created By nature on 2019/7/10
