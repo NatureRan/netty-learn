@@ -2,9 +2,11 @@ package online.tianran.netty.nio;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
+import java.nio.ByteBuffer;
 import java.nio.channels.SelectionKey;
 import java.nio.channels.Selector;
 import java.nio.channels.ServerSocketChannel;
+import java.nio.channels.SocketChannel;
 import java.util.Iterator;
 import java.util.Set;
 
@@ -34,7 +36,24 @@ public class NioSelectorServer {
             Iterator<SelectionKey> iterator = selectionKeys.iterator();
             while (iterator.hasNext()) {
                 SelectionKey selectionKey = iterator.next();
-
+                if (selectionKey.isAcceptable()) {
+                    ServerSocketChannel channel = (ServerSocketChannel) selectionKey.channel();
+                    channel.configureBlocking(false);
+                    // 这里注册读时间，也可以注册写时间
+                    channel.register(selector, SelectionKey.OP_READ);
+                    System.out.println("建立连接成功");
+                } else if (selectionKey.isReadable()) {
+                    SocketChannel channel = (SocketChannel) selectionKey.channel();
+                    ByteBuffer byteBuffer = ByteBuffer.allocate(128);
+                    int len = channel.read(byteBuffer);
+                    if (len > 0) {
+                        System.out.println("接收到消息:" + new String(byteBuffer.array()));
+                    } else if (len == -1) {
+                        // 客户端断开连接，关闭socket
+                        System.out.println("客户端关闭连接");
+                        channel.close();
+                    }
+                }
 
             }
         }
