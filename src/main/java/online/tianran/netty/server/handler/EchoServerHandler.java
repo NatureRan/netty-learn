@@ -12,6 +12,30 @@ import io.netty.channel.SimpleChannelInboundHandler;
 public class EchoServerHandler extends SimpleChannelInboundHandler {
 
     @Override
+    public void channelRegistered(ChannelHandlerContext ctx) throws Exception {
+        System.out.println("client channel registered");
+    }
+
+    @Override
+    public void channelActive(ChannelHandlerContext ctx) throws Exception {
+        // 通道建立完成发生在通道注册后面
+        System.out.println("client channel connect success");
+    }
+
+    @Override
+    public void channelUnregistered(ChannelHandlerContext ctx) throws Exception {
+        System.out.println("client channel unregistered");
+    }
+
+    @Override
+    public void channelInactive(ChannelHandlerContext ctx) throws Exception {
+        // 通道断开连接发生在通达注销之前
+        System.out.println("client channel disconnect");
+    }
+
+
+
+    @Override
     public void channelRead0(ChannelHandlerContext channelHandlerContext, Object msg) throws Exception {
         // 接收客户端发来的数据，使用buf.readableBytes()获取数据大小，并转换成byte数组
         ByteBuf buf = (ByteBuf) msg;
@@ -20,10 +44,11 @@ public class EchoServerHandler extends SimpleChannelInboundHandler {
 
         // 将byte数组转成字符串，在控制台打印输出
         String body = new String(req, "UTF-8");
-        System.out.println("receive data from online.tianran.netty.client:" + body);
+        System.out.println("receive data from client:" + body);
 
         // 将接收到客户端发来的数据写回到客户端
-        ByteBuf resp = Unpooled.copiedBuffer(body.getBytes());
+        String response = "server receive success:" + body;
+        ByteBuf resp = Unpooled.copiedBuffer(response.getBytes());
         channelHandlerContext.write(resp);
     }
 

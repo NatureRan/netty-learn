@@ -16,15 +16,15 @@ import online.tianran.netty.server.handler.EchoServerHandler;
 public class EchoServer {
 
     public static void main(String[] args) {
-        int port = 8080;
+        int port = 9000;
         new EchoServer().bind(port);
     }
 
     public void bind(int port) {
         // 创建两个EventLoopGroup实例
         // EventLoopGroup是包含一组专门用于处理网络事件的NIO线程组
-        EventLoopGroup bossGroup = new NioEventLoopGroup();
-        EventLoopGroup workerGroup = new NioEventLoopGroup();
+        EventLoopGroup bossGroup = new NioEventLoopGroup(1);
+        EventLoopGroup workerGroup = new NioEventLoopGroup(8);
 
         try {
             // 创建服务端辅助启动类 ServerBootstrap 对象
@@ -42,6 +42,7 @@ public class EchoServer {
                             nioSocketChannel.pipeline().addLast(new EchoServerHandler());
                         }
                     });
+            System.out.println("echo server start...");
             // 绑定端口，等待同步成功
             ChannelFuture channelFuture = b.bind(port).sync();
             // 等待服务监听端口关闭
