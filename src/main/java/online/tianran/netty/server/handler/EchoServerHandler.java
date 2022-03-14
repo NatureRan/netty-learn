@@ -37,17 +37,12 @@ public class EchoServerHandler extends SimpleChannelInboundHandler {
 
     @Override
     public void channelRead0(ChannelHandlerContext channelHandlerContext, Object msg) throws Exception {
-        // 接收客户端发来的数据，使用buf.readableBytes()获取数据大小，并转换成byte数组
-        ByteBuf buf = (ByteBuf) msg;
-        byte[] req = new byte[buf.readableBytes()];
-        buf.readBytes(req);
-
         // 将byte数组转成字符串，在控制台打印输出
-        String body = new String(req, "UTF-8");
+        String body = (String) msg;
         System.out.println("receive data from client:" + body);
 
         // 将接收到客户端发来的数据写回到客户端
-        String response = "server receive success:" + body;
+        String response = "server receive success:" + body + "$_"; // 添加一个分隔符$_
         ByteBuf resp = Unpooled.copiedBuffer(response.getBytes());
         channelHandlerContext.write(resp);
     }

@@ -1,6 +1,8 @@
 package online.tianran.netty.server;
 
 import io.netty.bootstrap.ServerBootstrap;
+import io.netty.buffer.ByteBuf;
+import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelOption;
@@ -8,6 +10,9 @@ import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
+import io.netty.handler.codec.DelimiterBasedFrameDecoder;
+import io.netty.handler.codec.FixedLengthFrameDecoder;
+import io.netty.handler.codec.string.StringDecoder;
 import online.tianran.netty.server.handler.EchoServerHandler;
 
 /**
@@ -39,6 +44,11 @@ public class EchoServer {
                     .childHandler(new ChannelInitializer<NioSocketChannel>() {
                         @Override
                         protected void initChannel(NioSocketChannel nioSocketChannel) throws Exception {
+                            // 设置delimiter
+//                            ByteBuf delimiter = Unpooled.copiedBuffer("$_".getBytes());
+//                            nioSocketChannel.pipeline().addLast(new DelimiterBasedFrameDecoder(1024, delimiter));
+                            nioSocketChannel.pipeline().addLast(new FixedLengthFrameDecoder(20));
+                            nioSocketChannel.pipeline().addLast(new StringDecoder());
                             nioSocketChannel.pipeline().addLast(new EchoServerHandler());
                         }
                     });

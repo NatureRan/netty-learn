@@ -1,6 +1,7 @@
 package online.tianran.netty.client;
 
 import io.netty.buffer.ByteBuf;
+import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 
@@ -21,13 +22,7 @@ public class EchoClientHandler extends SimpleChannelInboundHandler {
      */
     @Override
     public void channelRead0(ChannelHandlerContext channelHandlerContext, Object msg) throws Exception {
-        // 获取服务端返回的数据buf
-        ByteBuf buf = (ByteBuf) msg;
-        byte[] req = new byte[buf.readableBytes()];
-        buf.readBytes(req);
-
-        // 将服务端返回的byte数组转成字符串，在控制台打印输出
-        String body = new String(req, "UTF-8");
+        String body = (String) msg;
         System.out.println("receive data from online.tianran.netty.server:" + body);
     }
 
