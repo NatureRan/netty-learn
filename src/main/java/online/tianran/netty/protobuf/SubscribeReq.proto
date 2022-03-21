@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+option java_package = "online.tianran.netty.protobuf";
+option java_outer_classname = "SubscribeReqProto";
+
+message SubscribeReq {
+  int32 subReqID = 1;
+  string userName = 2;
+  string productName = 3;
+  repeated string address = 4;
+}
+
+// protoc .\src\main\java\online\tianran\netty\protobuf\SubscribeReq.proto --java_out=.\src\main\java
